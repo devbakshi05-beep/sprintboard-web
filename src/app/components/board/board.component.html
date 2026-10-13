@@ -1,0 +1,56 @@
+<div class="topbar">
+  <div class="user-info">
+    <div class="avatar">{{ userName.charAt(0).toUpperCase() }}</div>
+    <span class="user-name">{{ userName }}</span>
+  </div>
+  <button class="logout-btn" (click)="logout()">Logout</button>
+</div>
+
+@if (loading()) {
+  <p class="status-text">Loading...</p>
+} @else if (!board()) {
+  <div class="create-board">
+    <h2>Create your first board</h2>
+    <input #boardTitle placeholder="Board title" (keyup.enter)="createBoard(boardTitle.value)" />
+    <button (click)="createBoard(boardTitle.value)">Create</button>
+  </div>
+} @else {
+  <div class="board">
+    <h2>{{ board()!.title }}</h2>
+
+    <div class="columns">
+      @for (column of board()!.columns; track column.id) {
+        <div class="column">
+          <h3>{{ column.title }}</h3>
+
+          <div
+            class="card-list"
+            cdkDropList
+            [id]="column.id.toString()"
+            [cdkDropListData]="column.cards"
+            [cdkDropListConnectedTo]="columnIds()"
+            (cdkDropListDropped)="onCardDrop($event)"
+          >
+            @for (card of column.cards; track card.id) {
+              <div class="card" cdkDrag>
+                <button class="delete-btn" (click)="deleteCard(card.id)">×</button>
+                <strong>{{ card.title }}</strong>
+                @if (card.description) {
+                  <p>{{ card.description }}</p>
+                }
+                @if (column.cards.length === 0) {
+    <p class="empty-hint">No tasks yet</p>
+  }
+              </div>
+            }
+          </div>
+
+          <div class="add-card">
+            <input #cardInput placeholder="New card..." (keyup.enter)="addCard(column.id, cardInput.value); cardInput.value=''" />
+            <button (click)="addCard(column.id, cardInput.value); cardInput.value=''">+ Add</button>
+          </div>
+        </div>
+      }
+    </div>
+  </div>
+}

@@ -1,1 +1,22 @@
-/* You can add global styles to this file, and also import other style files */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  background: #f0f2f5;
+  color: #1a1a2e;
+}
+
+:root {
+  --primary: #5b8def;
+  --primary-dark: #3f6fd1;
+  --bg-light: #f0f2f5;
+  --card-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  --card-shadow-hover: 0 6px 16px rgba(0,0,0,0.15);
+}
+
+button {
+  font-family: inherit;
+}
